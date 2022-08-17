@@ -58,29 +58,10 @@ function! SVED_Sync()
 	let l:stopdepth = 100
 	let l:pdffile = ""
 	let l:foundpdf = 0
+	let targetfile = expand("%:r") .. ".synctex.gz"
 	while getcwd() != "/" && l:stopdepth >= 0
-		let l:matches = glob("*.latexmain", 0, 1)
-		if !empty(l:matches)
-			let l:pdffile = fnamemodify(l:matches[0],":p:r:r" ) . ".pdf"
-			if filereadable(l:pdffile)
-				let l:foundpdf = 1
-				break
-			endif
-			let l:pdffile = fnamemodify(l:matches[0],":p:r" ) . ".pdf"
-			if filereadable(l:pdffile)
-				let l:foundpdf = 1
-				break
-			endif
-		endif
-		let l:matches = glob(expand('%:r').".synctex.gz", 0, 1)
-		if !empty(l:matches)
-			let l:pdffile = fnamemodify(l:matches[0],":p:r:r" ) . ".pdf"
-			if filereadable(l:pdffile)
-				let l:foundpdf = 1
-				break
-			endif
-		endif
-		let l:matches = glob("*.synctex.gz", 0, 1)
+	" to find relative *.synctex.gz file in the current directory and below
+		let l:matches = glob(findfile(targetfile,"**",-1))[0], 0, 1)
 		if !empty(l:matches)
 			let l:pdffile = fnamemodify(l:matches[0],":p:r:r" ) . ".pdf"
 			if filereadable(l:pdffile)
