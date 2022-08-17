@@ -61,7 +61,7 @@ function! SVED_Sync()
 	let targetfile = expand("%:r") .. ".synctex.gz"
 	while getcwd() != "/" && l:stopdepth >= 0
 	" to find relative *.synctex.gz file in the current directory and below
-		let l:matches = glob(findfile(targetfile,"**",-1))[0], 0, 1)
+		let l:matches = glob(findfile(targetfile,"**",-1)[0], 0, 1)
 		if !empty(l:matches)
 			let l:pdffile = fnamemodify(l:matches[0],":p:r:r" ) . ".pdf"
 			if filereadable(l:pdffile)
